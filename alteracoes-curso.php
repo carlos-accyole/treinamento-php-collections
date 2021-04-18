@@ -1,6 +1,7 @@
 <?php
 
 require_once 'Curso.php';
+require_once 'Aluno.php';
 
 $curso = new Curso('Collections com PHP');
 $curso->adicionaAlteracao('Primeira aula criada');
@@ -11,20 +12,24 @@ foreach ($curso->recuperaAlteracoes() as $alteracao) {
     echo $alteracao .PHP_EOL;
 }
 
-$curso->adicionaAlunoParaEspera('Carlos Accyole');
-$curso->adicionaAlunoParaEspera('Gabriela Accyole');
-$curso->adicionaAlunoParaEspera('Rafaela Accyole');
+$gabriela = new Aluno('Gabiela Accyole');
+$curso->adicionaAlunoParaEspera(new Aluno('Carlos Accyole'));
+$curso->adicionaAlunoParaEspera($gabriela);
+$curso->adicionaAlunoParaEspera(new Aluno('Rafaela Accyole'));
 
 foreach ($curso->recuperaAlulnosEsperando() as $aluno) {
-    echo $aluno . PHP_EOL;
+    echo $aluno->nome . PHP_EOL;
 }
 
-$curso->matriculaAluno('Gabiela Accyole');
-$curso->matriculaAluno('Rafaela Accyole');
-$curso->matriculaAluno('Gabiela Accyole');
+$curso->matriculaAluno($gabriela);
+$curso->matriculaAluno(new Aluno('Rafaela Accyole'));
+$curso->matriculaAluno($gabriela);
 
 echo '-----------------------------------------' . PHP_EOL;
 
-foreach ($curso->recuperaAlunosMatriculados() as $alunosMatriculado) {
-    echo $alunosMatriculado . PHP_EOL;
+foreach ($curso->recuperaAlunosMatriculados() as $aluno) {
+    echo $aluno->nome . PHP_EOL;
 }
+
+$gabrielaEstaMatriculada = $curso->recuperaAlunosMatriculados()->contains($gabriela);
+var_dump($gabrielaEstaMatriculada);

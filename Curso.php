@@ -4,7 +4,7 @@ class Curso
 {
     private SplStack $alteracoes;
     private SplQueue $filaDeEsperaDeAlunos;
-    private SplDoublyLinkedList $alunosMatriculados;
+    private SplObjectStorage $alunosMatriculados;
 
     public function __construct(string $nome)
     {
@@ -12,7 +12,7 @@ class Curso
         // SplStack é filha de SplDoublyLinkedList
         $this->alteracoes = new SplStack();
         $this->filaDeEsperaDeAlunos = new SplQueue();
-        $this->alunosMatriculados = new SplDoublyLinkedList();
+        $this->alunosMatriculados = new SplObjectStorage();
     }
 
     public function adicionaAlteracao(string $alteracao): void
@@ -25,7 +25,7 @@ class Curso
         return clone $this->alteracoes;
     }
 
-    public function adicionaAlunoParaEspera(string $aluno): void
+    public function adicionaAlunoParaEspera(Aluno $aluno): void
     {
         $this->filaDeEsperaDeAlunos->enqueue($aluno);
     }
@@ -35,12 +35,12 @@ class Curso
         return clone $this->filaDeEsperaDeAlunos;
     }
 
-    public function matriculaAluno(string $aluno): void
+    public function matriculaAluno(Aluno $aluno): void
     {
-        $this->alunosMatriculados->push($aluno);
+        $this->alunosMatriculados->attach($aluno);
     }
 
-    public function recuperaAlunosMatriculados(): SplDoublyLinkedList
+    public function recuperaAlunosMatriculados(): SplObjectStorage
     {
         return clone $this->alunosMatriculados;
     }
